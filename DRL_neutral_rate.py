@@ -1,3 +1,7 @@
+# Python IDLE 3.12 64-bit, CPU 환경에서 실행하였을 때 아래의 결과가 도출됨
+# 다른 에디터(Google Colab)를 활용하거나 Python IDLE의 버전이 상이하거나 GPU 환경에서 실행할 경우, 결과값에 차이가 발생할 가능성이 높음
+# 또한 활용한 라이브러리의 추후 업데이트로 인해 결과값에 차이가 발생할 가능성이 존재함
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -6,11 +10,18 @@ import numpy as np
 import random
 import matplotlib.pyplot as plt
 
+# 한글 폰트 설정
+plt.rcParams['font.family'] = 'Malgun Gothic'
+plt.rcParams['axes.unicode_minus'] = False
+
 # 시드 고정
 random.seed(77)
 np.random.seed(77)
 torch.manual_seed(77)
 
+# 재현성을 위한 추가 설정
+torch.backends.cudnn.deterministic = True  
+torch.backends.cudnn.benchmark = False  
 
 # 데이터 입력
 actual_gdp = np.array([109314800, 
@@ -381,6 +392,17 @@ for e in range(total_episodes):
 
 # 마지막 에피소드에서 받은 보상 출력
 print(f"Last Episode ({total_episodes}): Total Reward = {total_rewards[-1]}")
+
+# 에피소드 단계에 따른 획득 보상 변화
+plt.figure(figsize=(10, 5))
+plt.plot(range(total_episodes), total_rewards, color='black')
+plt.xlabel('에피소드 수')
+plt.ylabel('보상 수')
+plt.xticks(fontsize=16)
+plt.yticks(fontsize=16)
+plt.grid(True)
+plt.tight_layout()
+plt.show()
 
 # 스무딩된 중립금리 값 계산
 smoothed_neutral_rate = moving_average(env.neutral_rate, window_size=5)
