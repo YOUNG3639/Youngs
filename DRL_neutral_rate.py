@@ -452,7 +452,7 @@ class DoubleDQNAgent:
         self.target_model = DQN(input_dim, output_dim)
         self.optimizer = optim.Adam(self.model.parameters(), lr=0.00005)
         self.criterion = nn.SmoothL1Loss()
-        self.gamma = 0.95
+        self.gamma = 0.94
         self.epsilon = 1.0  # 초기 epsilon 값을 1.0으로 낮춤
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.9999  # epsilon 감소 속도를 조금 더 완만하게 조정
@@ -514,11 +514,11 @@ def moving_average(data, window_size=3):
 
 # 강화 학습 실행
 env = EconomicEnvironment(inflation_rate, interest_rate, exchange_rate, unit_labor_cost_change, unemployment_change)
-total_episodes = 37
-agent = DoubleDQNAgent(input_dim=5, output_dim=3, total_episodes=total_episodes)
+total_episodes = 26
+agent = DoubleDQNAgent(input_dim=5, output_dim=4, total_episodes=total_episodes)
 
 total_rewards = []
-scheduler = torch.optim.lr_scheduler.StepLR(agent.optimizer, step_size=30, gamma=0.95)  # 타겟 네트워크 업데이트 주기 증가
+scheduler = torch.optim.lr_scheduler.StepLR(agent.optimizer, step_size=30, gamma=0.94)  # 타겟 네트워크 업데이트 주기 증가
 
 for e in range(total_episodes):
     state = env.reset()
@@ -542,10 +542,10 @@ print(f"Last Episode ({total_episodes}): Total Reward = {total_rewards[-1]}")
 # 에피소드 단계에 따른 획득 보상 변화
 plt.figure(figsize=(10, 5))
 plt.plot(range(total_episodes), total_rewards, color='black')
-plt.xlabel('에피소드 수')
-plt.ylabel('보상 수')
-plt.xticks(fontsize=16)
-plt.yticks(fontsize=16)
+plt.xlabel('에피소드 수',fontsize=25)
+plt.ylabel('보상 수',fontsize=25)
+plt.xticks(fontsize=25)
+plt.yticks(fontsize=25)
 plt.grid(True)
 plt.tight_layout()
 plt.show()
@@ -575,134 +575,135 @@ plt.show()
 
 # 결과 값
 
-# Last Episode (37): Total Reward = 74
+# Last Episode (26): Total Reward = 98
 
 # Yearly Estimated Neutral Interest Rate (Smoothed):
-# Year: 1990/1Q, Smoothed Neutral Interest Rate: 4.85%
-# Year: 1990/2Q, Smoothed Neutral Interest Rate: 5.15%
-# Year: 1990/3Q, Smoothed Neutral Interest Rate: 5.01%
-# Year: 1990/4Q, Smoothed Neutral Interest Rate: 4.76%
-# Year: 1991/1Q, Smoothed Neutral Interest Rate: 4.82%
-# Year: 1991/2Q, Smoothed Neutral Interest Rate: 4.82%
-# Year: 1991/3Q, Smoothed Neutral Interest Rate: 4.42%
-# Year: 1991/4Q, Smoothed Neutral Interest Rate: 4.42%
-# Year: 1992/1Q, Smoothed Neutral Interest Rate: 3.66%
-# Year: 1992/2Q, Smoothed Neutral Interest Rate: 3.20%
-# Year: 1992/3Q, Smoothed Neutral Interest Rate: 2.85%
-# Year: 1992/4Q, Smoothed Neutral Interest Rate: 2.45%
-# Year: 1993/1Q, Smoothed Neutral Interest Rate: 2.25%
-# Year: 1993/2Q, Smoothed Neutral Interest Rate: 2.31%
-# Year: 1993/3Q, Smoothed Neutral Interest Rate: 2.31%
-# Year: 1993/4Q, Smoothed Neutral Interest Rate: 2.34%
-# Year: 1994/1Q, Smoothed Neutral Interest Rate: 2.34%
-# Year: 1994/2Q, Smoothed Neutral Interest Rate: 2.14%
-# Year: 1994/3Q, Smoothed Neutral Interest Rate: 2.13%
-# Year: 1994/4Q, Smoothed Neutral Interest Rate: 2.13%
-# Year: 1995/1Q, Smoothed Neutral Interest Rate: 2.29%
-# Year: 1995/2Q, Smoothed Neutral Interest Rate: 2.32%
-# Year: 1995/3Q, Smoothed Neutral Interest Rate: 2.52%
-# Year: 1995/4Q, Smoothed Neutral Interest Rate: 2.76%
-# Year: 1996/1Q, Smoothed Neutral Interest Rate: 2.84%
-# Year: 1996/2Q, Smoothed Neutral Interest Rate: 2.60%
-# Year: 1996/3Q, Smoothed Neutral Interest Rate: 2.57%
-# Year: 1996/4Q, Smoothed Neutral Interest Rate: 2.37%
-# Year: 1997/1Q, Smoothed Neutral Interest Rate: 2.13%
-# Year: 1997/2Q, Smoothed Neutral Interest Rate: 2.05%
-# Year: 1997/3Q, Smoothed Neutral Interest Rate: 1.65%
-# Year: 1997/4Q, Smoothed Neutral Interest Rate: 1.25%
-# Year: 1998/1Q, Smoothed Neutral Interest Rate: 0.85%
-# Year: 1998/2Q, Smoothed Neutral Interest Rate: 0.40%
-# Year: 1998/3Q, Smoothed Neutral Interest Rate: 0.00%
-# Year: 1998/4Q, Smoothed Neutral Interest Rate: 0.32%
-# Year: 1999/1Q, Smoothed Neutral Interest Rate: 0.91%
-# Year: 1999/2Q, Smoothed Neutral Interest Rate: 1.37%
-# Year: 1999/3Q, Smoothed Neutral Interest Rate: 1.77%
-# Year: 1999/4Q, Smoothed Neutral Interest Rate: 2.56%
-# Year: 2000/1Q, Smoothed Neutral Interest Rate: 2.63%
-# Year: 2000/2Q, Smoothed Neutral Interest Rate: 2.92%
-# Year: 2000/3Q, Smoothed Neutral Interest Rate: 2.84%
-# Year: 2000/4Q, Smoothed Neutral Interest Rate: 2.64%
-# Year: 2001/1Q, Smoothed Neutral Interest Rate: 2.06%
-# Year: 2001/2Q, Smoothed Neutral Interest Rate: 1.91%
-# Year: 2001/3Q, Smoothed Neutral Interest Rate: 1.34%
-# Year: 2001/4Q, Smoothed Neutral Interest Rate: 1.21%
-# Year: 2002/1Q, Smoothed Neutral Interest Rate: 1.42%
-# Year: 2002/2Q, Smoothed Neutral Interest Rate: 1.50%
-# Year: 2002/3Q, Smoothed Neutral Interest Rate: 1.40%
-# Year: 2002/4Q, Smoothed Neutral Interest Rate: 1.24%
-# Year: 2003/1Q, Smoothed Neutral Interest Rate: 1.26%
+# Year: 1990/1Q, Smoothed Neutral Interest Rate: 4.69%
+# Year: 1990/2Q, Smoothed Neutral Interest Rate: 4.46%
+# Year: 1990/3Q, Smoothed Neutral Interest Rate: 4.42%
+# Year: 1990/4Q, Smoothed Neutral Interest Rate: 4.48%
+# Year: 1991/1Q, Smoothed Neutral Interest Rate: 4.54%
+# Year: 1991/2Q, Smoothed Neutral Interest Rate: 4.54%
+# Year: 1991/3Q, Smoothed Neutral Interest Rate: 4.47%
+# Year: 1991/4Q, Smoothed Neutral Interest Rate: 4.37%
+# Year: 1992/1Q, Smoothed Neutral Interest Rate: 3.91%
+# Year: 1992/2Q, Smoothed Neutral Interest Rate: 3.34%
+# Year: 1992/3Q, Smoothed Neutral Interest Rate: 3.02%
+# Year: 1992/4Q, Smoothed Neutral Interest Rate: 2.49%
+# Year: 1993/1Q, Smoothed Neutral Interest Rate: 2.41%
+# Year: 1993/2Q, Smoothed Neutral Interest Rate: 2.46%
+# Year: 1993/3Q, Smoothed Neutral Interest Rate: 2.63%
+# Year: 1993/4Q, Smoothed Neutral Interest Rate: 2.62%
+# Year: 1994/1Q, Smoothed Neutral Interest Rate: 2.66%
+# Year: 1994/2Q, Smoothed Neutral Interest Rate: 2.36%
+# Year: 1994/3Q, Smoothed Neutral Interest Rate: 2.57%
+# Year: 1994/4Q, Smoothed Neutral Interest Rate: 2.40%
+# Year: 1995/1Q, Smoothed Neutral Interest Rate: 2.43%
+# Year: 1995/2Q, Smoothed Neutral Interest Rate: 2.50%
+# Year: 1995/3Q, Smoothed Neutral Interest Rate: 2.48%
+# Year: 1995/4Q, Smoothed Neutral Interest Rate: 2.36%
+# Year: 1996/1Q, Smoothed Neutral Interest Rate: 2.47%
+# Year: 1996/2Q, Smoothed Neutral Interest Rate: 2.46%
+# Year: 1996/3Q, Smoothed Neutral Interest Rate: 2.35%
+# Year: 1996/4Q, Smoothed Neutral Interest Rate: 2.35%
+# Year: 1997/1Q, Smoothed Neutral Interest Rate: 2.34%
+# Year: 1997/2Q, Smoothed Neutral Interest Rate: 2.22%
+# Year: 1997/3Q, Smoothed Neutral Interest Rate: 1.73%
+# Year: 1997/4Q, Smoothed Neutral Interest Rate: 1.33%
+# Year: 1998/1Q, Smoothed Neutral Interest Rate: 0.97%
+# Year: 1998/2Q, Smoothed Neutral Interest Rate: 0.43%
+# Year: 1998/3Q, Smoothed Neutral Interest Rate: 0.03%
+# Year: 1998/4Q, Smoothed Neutral Interest Rate: 0.28%
+# Year: 1999/1Q, Smoothed Neutral Interest Rate: 0.85%
+# Year: 1999/2Q, Smoothed Neutral Interest Rate: 1.47%
+# Year: 1999/3Q, Smoothed Neutral Interest Rate: 1.87%
+# Year: 1999/4Q, Smoothed Neutral Interest Rate: 2.49%
+# Year: 2000/1Q, Smoothed Neutral Interest Rate: 2.67%
+# Year: 2000/2Q, Smoothed Neutral Interest Rate: 2.61%
+# Year: 2000/3Q, Smoothed Neutral Interest Rate: 2.29%
+# Year: 2000/4Q, Smoothed Neutral Interest Rate: 2.09%
+# Year: 2001/1Q, Smoothed Neutral Interest Rate: 1.70%
+# Year: 2001/2Q, Smoothed Neutral Interest Rate: 1.57%
+# Year: 2001/3Q, Smoothed Neutral Interest Rate: 1.41%
+# Year: 2001/4Q, Smoothed Neutral Interest Rate: 1.33%
+# Year: 2002/1Q, Smoothed Neutral Interest Rate: 1.59%
+# Year: 2002/2Q, Smoothed Neutral Interest Rate: 1.67%
+# Year: 2002/3Q, Smoothed Neutral Interest Rate: 1.53%
+# Year: 2002/4Q, Smoothed Neutral Interest Rate: 1.34%
+# Year: 2003/1Q, Smoothed Neutral Interest Rate: 1.32%
 # Year: 2003/2Q, Smoothed Neutral Interest Rate: 1.01%
-# Year: 2003/3Q, Smoothed Neutral Interest Rate: 0.83%
-# Year: 2003/4Q, Smoothed Neutral Interest Rate: 0.87%
-# Year: 2004/1Q, Smoothed Neutral Interest Rate: 0.77%
-# Year: 2004/2Q, Smoothed Neutral Interest Rate: 0.55%
-# Year: 2004/3Q, Smoothed Neutral Interest Rate: 0.45%
-# Year: 2004/4Q, Smoothed Neutral Interest Rate: 0.49%
-# Year: 2005/1Q, Smoothed Neutral Interest Rate: 0.56%
-# Year: 2005/2Q, Smoothed Neutral Interest Rate: 0.76%
-# Year: 2005/3Q, Smoothed Neutral Interest Rate: 1.12%
-# Year: 2005/4Q, Smoothed Neutral Interest Rate: 1.42%
-# Year: 2006/1Q, Smoothed Neutral Interest Rate: 1.57%
-# Year: 2006/2Q, Smoothed Neutral Interest Rate: 1.61%
-# Year: 2006/3Q, Smoothed Neutral Interest Rate: 1.82%
-# Year: 2006/4Q, Smoothed Neutral Interest Rate: 1.81%
-# Year: 2007/1Q, Smoothed Neutral Interest Rate: 2.07%
-# Year: 2007/2Q, Smoothed Neutral Interest Rate: 2.17%
-# Year: 2007/3Q, Smoothed Neutral Interest Rate: 2.58%
-# Year: 2007/4Q, Smoothed Neutral Interest Rate: 2.22%
-# Year: 2008/1Q, Smoothed Neutral Interest Rate: 1.62%
-# Year: 2008/2Q, Smoothed Neutral Interest Rate: 0.82%
-# Year: 2008/3Q, Smoothed Neutral Interest Rate: 0.22%
-# Year: 2008/4Q, Smoothed Neutral Interest Rate: -0.70%
-# Year: 2009/1Q, Smoothed Neutral Interest Rate: -0.75%
-# Year: 2009/2Q, Smoothed Neutral Interest Rate: -0.42%
-# Year: 2009/3Q, Smoothed Neutral Interest Rate: -0.37%
-# Year: 2009/4Q, Smoothed Neutral Interest Rate: 0.02%
-# Year: 2010/1Q, Smoothed Neutral Interest Rate: 0.26%
-# Year: 2010/2Q, Smoothed Neutral Interest Rate: 0.58%
-# Year: 2010/3Q, Smoothed Neutral Interest Rate: 0.73%
-# Year: 2010/4Q, Smoothed Neutral Interest Rate: 1.10%
-# Year: 2011/1Q, Smoothed Neutral Interest Rate: 0.96%
-# Year: 2011/2Q, Smoothed Neutral Interest Rate: 0.97%
-# Year: 2011/3Q, Smoothed Neutral Interest Rate: 0.60%
-# Year: 2011/4Q, Smoothed Neutral Interest Rate: 0.28%
-# Year: 2012/1Q, Smoothed Neutral Interest Rate: 0.08%
-# Year: 2012/2Q, Smoothed Neutral Interest Rate: -0.07%
-# Year: 2012/3Q, Smoothed Neutral Interest Rate: -0.22%
-# Year: 2012/4Q, Smoothed Neutral Interest Rate: -0.06%
-# Year: 2013/1Q, Smoothed Neutral Interest Rate: -0.11%
-# Year: 2013/2Q, Smoothed Neutral Interest Rate: -0.22%
-# Year: 2013/3Q, Smoothed Neutral Interest Rate: -0.06%
-# Year: 2013/4Q, Smoothed Neutral Interest Rate: -0.16%
-# Year: 2014/1Q, Smoothed Neutral Interest Rate: -0.57%
-# Year: 2014/2Q, Smoothed Neutral Interest Rate: -0.77%
-# Year: 2014/3Q, Smoothed Neutral Interest Rate: -0.99%
-# Year: 2014/4Q, Smoothed Neutral Interest Rate: -1.11%
-# Year: 2015/1Q, Smoothed Neutral Interest Rate: -0.85%
-# Year: 2015/2Q, Smoothed Neutral Interest Rate: -0.95%
-# Year: 2015/3Q, Smoothed Neutral Interest Rate: -1.00%
-# Year: 2015/4Q, Smoothed Neutral Interest Rate: -1.05%
-# Year: 2016/1Q, Smoothed Neutral Interest Rate: -0.71%
-# Year: 2016/2Q, Smoothed Neutral Interest Rate: -0.84%
-# Year: 2016/3Q, Smoothed Neutral Interest Rate: -0.84%
-# Year: 2016/4Q, Smoothed Neutral Interest Rate: -0.46%
-# Year: 2017/1Q, Smoothed Neutral Interest Rate: -0.41%
-# Year: 2017/2Q, Smoothed Neutral Interest Rate: -0.99%
-# Year: 2017/3Q, Smoothed Neutral Interest Rate: -0.87%
-# Year: 2017/4Q, Smoothed Neutral Interest Rate: -0.77%
-# Year: 2018/1Q, Smoothed Neutral Interest Rate: -0.46%
-# Year: 2018/2Q, Smoothed Neutral Interest Rate: -0.41%
-# Year: 2018/3Q, Smoothed Neutral Interest Rate: 0.34%
-# Year: 2018/4Q, Smoothed Neutral Interest Rate: 0.14%
-# Year: 2019/1Q, Smoothed Neutral Interest Rate: 0.86%
-# Year: 2019/2Q, Smoothed Neutral Interest Rate: 0.88%
-# Year: 2019/3Q, Smoothed Neutral Interest Rate: 0.63%
-# Year: 2019/4Q, Smoothed Neutral Interest Rate: -0.12%
-# Year: 2020/1Q, Smoothed Neutral Interest Rate: -0.46%
-# Year: 2020/2Q, Smoothed Neutral Interest Rate: -0.76%
-# Year: 2020/3Q, Smoothed Neutral Interest Rate: -1.07%
-# Year: 2020/4Q, Smoothed Neutral Interest Rate: -0.53%
-# Year: 2021/1Q, Smoothed Neutral Interest Rate: -0.00%
-# Year: 2021/2Q, Smoothed Neutral Interest Rate: 0.25%
-# Year: 2021/3Q, Smoothed Neutral Interest Rate: -0.02%
-# Year: 2021/4Q, Smoothed Neutral Interest Rate: 0.18%
+# Year: 2003/3Q, Smoothed Neutral Interest Rate: 0.89%
+# Year: 2003/4Q, Smoothed Neutral Interest Rate: 0.88%
+# Year: 2004/1Q, Smoothed Neutral Interest Rate: 0.78%
+# Year: 2004/2Q, Smoothed Neutral Interest Rate: 0.59%
+# Year: 2004/3Q, Smoothed Neutral Interest Rate: 0.54%
+# Year: 2004/4Q, Smoothed Neutral Interest Rate: 0.55%
+# Year: 2005/1Q, Smoothed Neutral Interest Rate: 0.76%
+# Year: 2005/2Q, Smoothed Neutral Interest Rate: 0.99%
+# Year: 2005/3Q, Smoothed Neutral Interest Rate: 1.55%
+# Year: 2005/4Q, Smoothed Neutral Interest Rate: 2.02%
+# Year: 2006/1Q, Smoothed Neutral Interest Rate: 2.14%
+# Year: 2006/2Q, Smoothed Neutral Interest Rate: 2.12%
+# Year: 2006/3Q, Smoothed Neutral Interest Rate: 2.26%
+# Year: 2006/4Q, Smoothed Neutral Interest Rate: 2.05%
+# Year: 2007/1Q, Smoothed Neutral Interest Rate: 1.98%
+# Year: 2007/2Q, Smoothed Neutral Interest Rate: 2.32%
+# Year: 2007/3Q, Smoothed Neutral Interest Rate: 2.63%
+# Year: 2007/4Q, Smoothed Neutral Interest Rate: 2.20%
+# Year: 2008/1Q, Smoothed Neutral Interest Rate: 1.72%
+# Year: 2008/2Q, Smoothed Neutral Interest Rate: 1.11%
+# Year: 2008/3Q, Smoothed Neutral Interest Rate: 0.28%
+# Year: 2008/4Q, Smoothed Neutral Interest Rate: -0.50%
+# Year: 2009/1Q, Smoothed Neutral Interest Rate: -0.29%
+# Year: 2009/2Q, Smoothed Neutral Interest Rate: -0.21%
+# Year: 2009/3Q, Smoothed Neutral Interest Rate: -0.10%
+# Year: 2009/4Q, Smoothed Neutral Interest Rate: 0.12%
+# Year: 2010/1Q, Smoothed Neutral Interest Rate: 0.49%
+# Year: 2010/2Q, Smoothed Neutral Interest Rate: 0.39%
+# Year: 2010/3Q, Smoothed Neutral Interest Rate: 0.55%
+# Year: 2010/4Q, Smoothed Neutral Interest Rate: 0.69%
+# Year: 2011/1Q, Smoothed Neutral Interest Rate: 0.68%
+# Year: 2011/2Q, Smoothed Neutral Interest Rate: 0.55%
+# Year: 2011/3Q, Smoothed Neutral Interest Rate: 0.45%
+# Year: 2011/4Q, Smoothed Neutral Interest Rate: 0.24%
+# Year: 2012/1Q, Smoothed Neutral Interest Rate: 0.05%
+# Year: 2012/2Q, Smoothed Neutral Interest Rate: 0.11%
+# Year: 2012/3Q, Smoothed Neutral Interest Rate: -0.09%
+# Year: 2012/4Q, Smoothed Neutral Interest Rate: -0.19%
+# Year: 2013/1Q, Smoothed Neutral Interest Rate: -0.20%
+# Year: 2013/2Q, Smoothed Neutral Interest Rate: -0.25%
+# Year: 2013/3Q, Smoothed Neutral Interest Rate: -0.46%
+# Year: 2013/4Q, Smoothed Neutral Interest Rate: -0.56%
+# Year: 2014/1Q, Smoothed Neutral Interest Rate: -0.71%
+# Year: 2014/2Q, Smoothed Neutral Interest Rate: -0.83%
+# Year: 2014/3Q, Smoothed Neutral Interest Rate: -0.93%
+# Year: 2014/4Q, Smoothed Neutral Interest Rate: -0.84%
+# Year: 2015/1Q, Smoothed Neutral Interest Rate: -0.42%
+# Year: 2015/2Q, Smoothed Neutral Interest Rate: -0.52%
+# Year: 2015/3Q, Smoothed Neutral Interest Rate: -0.50%
+# Year: 2015/4Q, Smoothed Neutral Interest Rate: -0.60%
+# Year: 2016/1Q, Smoothed Neutral Interest Rate: -0.44%
+# Year: 2016/2Q, Smoothed Neutral Interest Rate: -0.70%
+# Year: 2016/3Q, Smoothed Neutral Interest Rate: -0.60%
+# Year: 2016/4Q, Smoothed Neutral Interest Rate: -0.15%
+# Year: 2017/1Q, Smoothed Neutral Interest Rate: -0.08%
+# Year: 2017/2Q, Smoothed Neutral Interest Rate: -0.47%
+# Year: 2017/3Q, Smoothed Neutral Interest Rate: -0.40%
+# Year: 2017/4Q, Smoothed Neutral Interest Rate: -0.37%
+# Year: 2018/1Q, Smoothed Neutral Interest Rate: -0.67%
+# Year: 2018/2Q, Smoothed Neutral Interest Rate: -0.68%
+# Year: 2018/3Q, Smoothed Neutral Interest Rate: -0.40%
+# Year: 2018/4Q, Smoothed Neutral Interest Rate: -0.62%
+# Year: 2019/1Q, Smoothed Neutral Interest Rate: -0.33%
+# Year: 2019/2Q, Smoothed Neutral Interest Rate: -0.12%
+# Year: 2019/3Q, Smoothed Neutral Interest Rate: -0.13%
+# Year: 2019/4Q, Smoothed Neutral Interest Rate: -0.29%
+# Year: 2020/1Q, Smoothed Neutral Interest Rate: -0.39%
+# Year: 2020/2Q, Smoothed Neutral Interest Rate: -0.60%
+# Year: 2020/3Q, Smoothed Neutral Interest Rate: -0.71%
+# Year: 2020/4Q, Smoothed Neutral Interest Rate: -0.24%
+# Year: 2021/1Q, Smoothed Neutral Interest Rate: 0.15%
+# Year: 2021/2Q, Smoothed Neutral Interest Rate: 0.48%
+# Year: 2021/3Q, Smoothed Neutral Interest Rate: 0.80%
+# Year: 2021/4Q, Smoothed Neutral Interest Rate: 0.77%
+
