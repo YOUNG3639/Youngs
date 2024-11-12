@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 import seaborn as sns
 import matplotlib.pyplot as plt
 
@@ -45,7 +46,18 @@ feature_names = X.columns
 for feature, coef in zip(feature_names, coefficients):
     print(f"{feature}: {coef:.4f}")
 
-# 4. 환경, 사회, 지배구조 가중치 계산
+# 4. 모델 평가 지표 추가 (R^2, MSE, MAE)
+y_pred = model.predict(X_scaled)
+r2 = r2_score(y, y_pred)
+mse = mean_squared_error(y, y_pred)
+mae = mean_absolute_error(y, y_pred)
+
+print("\nModel Evaluation:")
+print(f"R^2 Score: {r2:.4f}")
+print(f"Mean Squared Error (MSE): {mse:.2f}")
+print(f"Mean Absolute Error (MAE): {mae:.2f}")
+
+# 5. 환경, 사회, 지배구조 가중치 계산
 # 각 특성을 환경, 사회, 지배구조로 그룹화
 environment_features = ['carbon_emissions']
 social_features = ['global_employment_ratio']
